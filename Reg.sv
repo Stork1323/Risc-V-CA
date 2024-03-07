@@ -6,42 +6,22 @@ module Reg( // Register File
 	output logic [31:0] data1_o, data2_o
 	);
 	
-	logic [31:0] reg_r0; // 32 bit register
-	logic [31:0] reg_r1;
-	logic [31:0] reg_r2;
-	logic [31:0] reg_r3;
-	logic [31:0] reg_r4;
-	logic [31:0] reg_r5;
-	logic [31:0] reg_r6;
-	logic [31:0] reg_r7;
-	logic [31:0] reg_r8;
-	logic [31:0] reg_r9;
-	logic [31:0] reg_r10;
-	logic [31:0] reg_r11;
-	logic [31:0] reg_r12;
-	logic [31:0] reg_r13;
-	logic [31:0] reg_r14;
-	logic [31:0] reg_r15;
-	logic [31:0] reg_r16;
-	logic [31:0] reg_r17;
-	logic [31:0] reg_r18;
-	logic [31:0] reg_r19;
-	logic [31:0] reg_r20;
-	logic [31:0] reg_r21;
-	logic [31:0] reg_r22;
-	logic [31:0] reg_r23;
-	logic [31:0] reg_r24;
-	logic [31:0] reg_r25;
-	logic [31:0] reg_r26;
-	logic [31:0] reg_r27;
-	logic [31:0] reg_r28;
-	logic [31:0] reg_r29;
-	logic [31:0] reg_r30;
-	logic [31:0] reg_r31;
+	logic [31:0] Regs [0:4]; // 32 bit register
+	assign Regs[0] = 32'b0;
+	
+	// Write data on register
+	logic [31:0] temp;
+	mux2to1_32bit M0(Regs[rsW_i], dataW_i, RegWEn_i, temp);
+	
+	
 	
 	always_ff @(posedge clk_i) begin
-	
+		Regs[rsW_i] <= temp;
 	end
+	
+	// Update data output
+	assign data1_o = Regs[rs1_i];
+	assign data2_o = Regs[rs2_i];
 	
 endmodule
 
