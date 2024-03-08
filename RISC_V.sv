@@ -29,6 +29,6 @@ module RISC_V(
 	
 	//testing
 	logic [31:0] N_w;
-	shift_left #(2) SL(.value_i(32'h0000_0111), .value_o(N_w));
+	//shift_left #(2) SL(.value_i(32'h0000_0111), .value_o(N_w));
 	
 endmodule
