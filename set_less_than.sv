@@ -4,10 +4,10 @@ module set_less_than(
 	);
 	
 	logic [31:0] dif_v;
-	logic overf_v; // overflow of the result from subtractor
+	//logic overf_v; // overflow of the result from subtractor
 	//logic ans_v; // answer of operation
-	subtractor_32bit SUB0(rs1_i, rs2_i, dif_v, overf_v);
-	assign rd_o = {{31{1'b0}}, dif_v[31]};
+	subtractor_sign SUB0(rs1_i, rs2_i, dif_v);
+	assign rd_o = {{30{1'b0}}, dif_v[31]};
 	
 	
 endmodule

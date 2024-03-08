@@ -26,9 +26,3 @@ module Reg( // Register File
 	
 endmodule
 
-<<<<<<< HEAD
-	
-=======
-
-	
->>>>>>> e530b51254dddd9edc884d9e0d6f47a747ce48a1
