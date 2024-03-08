@@ -3,57 +3,47 @@
 module testbench();
 
 	logic [31:0] data1_i;
-	logic [31:0] data2_i;
-	logic [1:0] AluOp_i;
 	logic [31:0] result_o;
+	//integer N = 3;
 	// logic clk_i;
 	
-	ALU Al0(data1_i, data2_i, AluOp_i, result_o);
+	shift_left #(4) SL0(data1_i, result_o);
 	
 	
 	initial begin
-		data1_i <= 32'b0;
-		data2_i <= 32'b0;
-		AluOp_i <= 2'b0;
+		data1_i <= 0;
 		
 		#10;
 		
 		data1_i <= $urandom_range(9999999);
-		data2_i <= $urandom_range(9999999);
-		AluOp_i <= $urandom_range(3);
+		
 		#5;
 		
 		
 		data1_i <= $urandom_range(9999999);
-		data2_i <= $urandom_range(9999999);
-		AluOp_i <= $urandom_range(3);
+		
 		#15;
 		
 		
 		data1_i <= $urandom_range(9999999);
-		data2_i <= $urandom_range(9999999);
-		AluOp_i <= $urandom_range(3);
+		
 		#20;
 		
 		
 		data1_i <= $urandom_range(9999999);
-		data2_i <= $urandom_range(9999999);
-		AluOp_i <= $urandom_range(3);
+	
 		#10;
 		
 		data1_i <= $urandom_range(9999999);
-		data2_i <= $urandom_range(9999999);
-		AluOp_i <= $urandom_range(3);
+		
 		#10;
 		
 		data1_i <= $urandom_range(9999999);
-		data2_i <= $urandom_range(9999999);
-		AluOp_i <= $urandom_range(3);
+		
 		#10;
 		
 		data1_i <= $urandom_range(9999999);
-		data2_i <= $urandom_range(9999999);
-		AluOp_i <= $urandom_range(3);
+		
 		#10;
 		
 		$finish;

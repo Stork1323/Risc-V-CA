@@ -6,8 +6,8 @@ module Reg( // Register File
 	output logic [31:0] data1_o, data2_o
 	);
 	
-	logic [31:0] Regs [0:4]; // 32 bit register
-	assign Regs[0] = 32'b0;
+	logic [31:0] Regs [31:0]; // 32 bit register
+	//assign Regs[0] = {{32{1'b0}}};
 	
 	// Write data on register
 	logic [31:0] temp;
