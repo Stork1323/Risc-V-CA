@@ -1,14 +1,14 @@
-module shift_right_logical #(parameter logic [4:0] N = 1'b0)(
-	input logic [31:0] value_i,
-	output logic [31:0] value_o
+module shift_right_logical(
+	input logic [31:0] rs1_i, rs2_i, // rs2_i only has 5 bit length
+	output logic [31:0] rd_o
 	);
 	
 	logic [31:0] cond;
-	decode_dif DE0(.N_i(N), .Y_o(cond));
+	decode_dif DE0(.N_i(rs2_i), .Y_o(cond));
 	
 	logic [31:0] temp [32];
 	
-	mux2to1_32bit M0(value_i, {1'b0, value_i[31:1]}, cond[0], temp[0]); 
+	mux2to1_32bit M0(rs1_i, {1'b0, rs1_i[31:1]}, cond[0], temp[0]); 
 	mux2to1_32bit M1(temp[0], {1'b0, temp[0][31:1]}, cond[1], temp[1]); 
 	mux2to1_32bit M2(temp[1], {1'b0, temp[1][31:1]}, cond[2], temp[2]); 
 	mux2to1_32bit M3(temp[2], {1'b0, temp[2][31:1]}, cond[3], temp[3]); 
@@ -41,7 +41,7 @@ module shift_right_logical #(parameter logic [4:0] N = 1'b0)(
 	mux2to1_32bit M30(temp[29], {1'b0, temp[29][31:1]}, cond[30], temp[30]); 
 	mux2to1_32bit M31(temp[30], {1'b0, temp[30][31:1]}, cond[31], temp[31]); 
 	
-	assign value_o = temp[31];
+	assign rd_o = temp[31];
 	
 	
 	

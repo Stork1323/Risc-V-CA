@@ -1,33 +1,48 @@
-module shift_left_logical #(parameter N = 1'b0)(
-	input logic [31:0] value_i,
-	output logic [31:0] value_o
+module shift_left_logical(
+	input logic [31:0] rs1_i, rs2_i,
+	output logic [31:0] rd_o
 	);
 	
-//	logic [31:0] temp [32];
-//	logic cond;
-//	logic [4:0] N_new;
-//	
-//	assign N_new = N;
-//	assign cond = N_new[0] | N_new[1] | N_new[2] | N_new[3] | N_new[4]; // compare with 1
-//	mux2to1_32bit MU0(.a_i(value_i), .b_i({value_i[30:1], 1'b0}), .se_i(cond), .c_o(temp[0]));
-//	decrease1 D0(.N_i(N), .N_o(N_new));
-	logic [63:0] temp;
-	assign temp = {value_i[31:0], {N{1'b0}}};
-	assign value_o = temp[31:0];
+
+	logic [31:0] cond;
+	decode_dif DE0(.N_i(rs2_i), .Y_o(cond));
+	
+	logic [31:0] temp [32];
+	
+	mux2to1_32bit M0(rs1_i, {  rs1_i[31:1], 1'b0}, cond[0], temp[0]); 
+	mux2to1_32bit M1(temp[0], {  temp[0][31:1], 1'b0}, cond[1], temp[1]); 
+	mux2to1_32bit M2(temp[1], {  temp[1][31:1], 1'b0}, cond[2], temp[2]); 
+	mux2to1_32bit M3(temp[2], {  temp[2][31:1], 1'b0}, cond[3], temp[3]); 
+	mux2to1_32bit M4(temp[3], {  temp[3][31:1], 1'b0}, cond[4], temp[4]); 
+	mux2to1_32bit M5(temp[4], {  temp[4][31:1], 1'b0}, cond[5], temp[5]); 
+	mux2to1_32bit M6(temp[5], {  temp[5][31:1], 1'b0}, cond[6], temp[6]); 
+	mux2to1_32bit M7(temp[6], {  temp[6][31:1], 1'b0}, cond[7], temp[7]); 
+	mux2to1_32bit M8(temp[7], {  temp[7][31:1], 1'b0}, cond[8], temp[8]); 
+	mux2to1_32bit M9(temp[8], {  temp[8][31:1], 1'b0}, cond[9], temp[9]); 
+	mux2to1_32bit M10(temp[9], {  temp[9][31:1], 1'b0}, cond[10], temp[10]); 
+	mux2to1_32bit M11(temp[10], {  temp[10][31:1], 1'b0}, cond[11], temp[11]); 
+	mux2to1_32bit M12(temp[11], {  temp[11][31:1], 1'b0}, cond[12], temp[12]); 
+	mux2to1_32bit M13(temp[12], {  temp[12][31:1], 1'b0}, cond[13], temp[13]); 
+	mux2to1_32bit M14(temp[13], {  temp[13][31:1], 1'b0}, cond[14], temp[14]); 
+	mux2to1_32bit M15(temp[14], {  temp[14][31:1], 1'b0}, cond[15], temp[15]); 
+	mux2to1_32bit M16(temp[15], {  temp[15][31:1], 1'b0}, cond[16], temp[16]); 
+	mux2to1_32bit M17(temp[16], {  temp[16][31:1], 1'b0}, cond[17], temp[17]); 
+	mux2to1_32bit M18(temp[17], {  temp[17][31:1], 1'b0}, cond[18], temp[18]); 
+	mux2to1_32bit M19(temp[18], {  temp[18][31:1], 1'b0}, cond[19], temp[19]); 
+	mux2to1_32bit M20(temp[19], {  temp[19][31:1], 1'b0}, cond[20], temp[20]); 
+	mux2to1_32bit M21(temp[20], {  temp[20][31:1], 1'b0}, cond[21], temp[21]); 
+	mux2to1_32bit M22(temp[21], {  temp[21][31:1], 1'b0}, cond[22], temp[22]); 
+	mux2to1_32bit M23(temp[22], {  temp[22][31:1], 1'b0}, cond[23], temp[23]); 
+	mux2to1_32bit M24(temp[23], {  temp[23][31:1], 1'b0}, cond[24], temp[24]); 
+	mux2to1_32bit M25(temp[24], {  temp[24][31:1], 1'b0}, cond[25], temp[25]); 
+	mux2to1_32bit M26(temp[25], {  temp[25][31:1], 1'b0}, cond[26], temp[26]); 
+	mux2to1_32bit M27(temp[26], {  temp[26][31:1], 1'b0}, cond[27], temp[27]); 
+	mux2to1_32bit M28(temp[27], {  temp[27][31:1], 1'b0}, cond[28], temp[28]); 
+	mux2to1_32bit M29(temp[28], {  temp[28][31:1], 1'b0}, cond[29], temp[29]); 
+	mux2to1_32bit M30(temp[29], {  temp[29][31:1], 1'b0}, cond[30], temp[30]); 
+	mux2to1_32bit M31(temp[30], {  temp[30][31:1], 1'b0}, cond[31], temp[31]); 
+	
+	assign rd_o = temp[31];
 	
 endmodule
 
-//module decrease1(
-//	input logic [4:0] N_i,
-//	output logic [4:0] N_o
-//	);
-//	
-//	logic [4:0] bor;
-//	
-//	full_subtractor SB0(.a_i(N_i[0]), .b_i(1'b1), .c_i(0), .d_o(N_o[0]), .b_o(bor[0]));
-//	full_subtractor SB1(.a_i(N_i[1]), .b_i(1'b0), .c_i(bor[0]), .d_o(N_o[1]), .b_o(bor[1]));
-//	full_subtractor SB2(.a_i(N_i[2]), .b_i(1'b0), .c_i(bor[1]), .d_o(N_o[2]), .b_o(bor[2]));
-//	full_subtractor SB3(.a_i(N_i[3]), .b_i(1'b0), .c_i(bor[2]), .d_o(N_o[3]), .b_o(bor[3]));
-//	full_subtractor SB4(.a_i(N_i[4]), .b_i(1'b0), .c_i(bor[3]), .d_o(N_o[4]), .b_o(bor[4]));
-//	
-//endmodule

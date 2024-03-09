@@ -25,7 +25,7 @@ module RISC_V(
 	Reg R0(.rsW_i(rsW_w), .rs1_i(rsR1_w), .rs2_i(rsR2_w),
 			 .clk_i(clk_i), .RegWEn_i(RegWEn_w), .dataW_i(dataB_w),
 			 .data1_o(Reg1_w), .data2_o(Reg2_w));
-	ALU AL0(.a_i(Reg1_w), .b_i(Reg2_w), .AluOp_i(AluOp_w), .Result_o(dataB_w));
+	//ALU AL0(.a_i(Reg1_w), .b_i(Reg2_w), .AluOp_i(AluOp_w), .Result_o(dataB_w));
 	
 	//testing
 	logic [31:0] N_w;

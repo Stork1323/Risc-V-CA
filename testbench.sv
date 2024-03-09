@@ -2,71 +2,58 @@
 
 module testbench();
 
-	logic [31:0] data1_i, data2_i;
-	logic [31:0] result_o;
+	logic [2:0] data1_i;
+	logic [7:0] result_o;
 	//logic [32:0] dif_o;
 	//integer N = 3;
 	// logic clk_i;
 	
-	set_less_than S0(data1_i, data2_i, result_o);
+	decode3to8 D0(data1_i,  result_o);
 	
 	
 	initial begin
 		data1_i <= 0;
-		data2_i <= 0;
 		
 		#10;
 		
-		data1_i <= $random();
-		data2_i <= $random();
-		
+		data1_i <= $urandom_range(7);
 		#5;
 		
 		
-		data1_i <= $random();
-		data2_i <= $random();
+		data1_i <= $urandom_range(7);
 		
 		#15;
 		
 		
-		data1_i <= $random();
-		data2_i <= $random();
+		data1_i <= $urandom_range(7);
 		
 		#20;
 		
 		
-		data1_i <= $random();
-		data2_i <= $random();
+		data1_i <= $urandom_range(7);
 	
 		#10;
 		
-		data1_i <= $random();
-		data2_i <= $random();
+		data1_i <= $urandom_range(7);
 		
 		#10;
 		
-		data1_i <= $random();
-		data2_i <= $random();
+		data1_i <= $urandom_range(7);
 		
 		#10;
 		
-		data1_i <= $random();
-		data2_i <= $random();
+		data1_i <= $urandom_range(7);
 		
 		#10;
 		
-		data1_i <= $random();
-		data2_i <= $random();
+		data1_i <= $urandom_range(7);
+		#10;
+		
+		data1_i <= $urandom_range(7);
 		
 		#10;
 		
-		data1_i <= $random();
-		data2_i <= $random();
-		
-		#10;
-		
-		data1_i <= $random();
-		data2_i <= $random();
+		data1_i <= $urandom_range(7);
 		
 		#10;
 		
