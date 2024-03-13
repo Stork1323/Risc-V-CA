@@ -11,13 +11,13 @@ module Reg( // Register File
 	//assign Regs[0] = {{32{1'b0}}};
 	
 	// Write data on register
-	logic [31:0] temp;
-	mux2to1_32bit M0(Regs[rsW_i], dataW_i, RegWEn_i, temp);
+	//logic [31:0] temp;
+	//mux2to1_32bit M0(Regs[rsW_i], dataW_i, RegWEn_i, temp);
 	
 	
 	
 	always_ff @(posedge clk_i) begin
-		Regs[rsW_i] <= temp;
+		if (RegWEn_i) Regs[rsW_i] <= dataW_i;
 	end
 	
 	// Update data output

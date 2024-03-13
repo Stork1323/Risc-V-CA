@@ -3,7 +3,13 @@ module IMEM( // A read-only memory for fetching instructions
 	output logic [31:0] inst_o
 	);
 	
-	assign inst_o = addr_i;
+	logic [31:0] mem [1023:0];
+	
+	assign inst_o = mem[addr_i];
+	
+	//initial begin
+	// upload memory file
+	//end
 	
 endmodule
 
