@@ -1,9 +1,9 @@
 module RISC_V(
 	input logic clk_i
 	);
-	logic WE_w, RegWEn_w;
+	logic WE_w, RegWEn_w, Bsel_w, ImmSel_w;
 	logic overf_pc_r;
-	logic [31:0] pc_w, pc4_w, inst_w, dataWB_w, rs1_w, rs2_w;
+	logic [31:0] pc_w, pc4_w, inst_w, dataWB_w, rs1_w, rs2_w, imm_w, rs2_pre_w;
 	logic [3:0] AluOp_w;
 	
 	PC PC(
@@ -33,7 +33,20 @@ module RISC_V(
 		.RegWEn_i(RegWEn_w),
 		.clk_i(clk_i),
 		.data1_o(rs1_w),
-		.data2_o(rs2_w)
+		.data2_o(rs2_pre_w)
+		);
+		
+	Imm_Gen IG(
+		.inst_i(inst_w[31:20]),
+		.ImmSel_i(ImmSel_w),
+		.imm_o(imm_w)
+		);
+		
+	mux2to1_32bit M0(
+		.a_i(rs2_pre_w),
+		.b_i(imm_w),
+		.se_i(Bsel_w),
+		.c_o(rs2_w)
 		);
 		
 	ALU ALU(
