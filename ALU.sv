@@ -2,6 +2,8 @@
 	This current module compute 10 R-type instructions
 */
 
+`include "define.sv"
+
 module ALU(
 	input logic [31:0]  rs1_i,  rs2_i,
 	input logic [3:0] AluOp_i, // Alu_op[2:0] = funct3, Alu_op[3] = funct7[5]
@@ -53,16 +55,17 @@ module ALU(
 	
 	
 	
-	assign Result_o = (AluOp_i == 4'b0000) ? sum_r : 
-							(AluOp_i == 4'b1000) ? sub_r : 
-							(AluOp_i == 4'b0001) ? sll_r : 
-							(AluOp_i == 4'b0010) ? slt_r : 
-							(AluOp_i == 4'b0011) ? sltu_r :
-							(AluOp_i == 4'b0100) ? xor_r :
-							(AluOp_i == 4'b0101) ? srl_r :
-							(AluOp_i == 4'b1101) ? sra_r :
-							(AluOp_i == 4'b0110) ? or_r : 
-							(AluOp_i == 4'b0111) ? and_r : {32{1'b0}};
+	assign Result_o = (AluOp_i == `ADD) ? sum_r : 
+							(AluOp_i == `SUB) ? sub_r : 
+							(AluOp_i == `SLL) ? sll_r : 
+							(AluOp_i == `SLT) ? slt_r : 
+							(AluOp_i == `SLTU) ? sltu_r :
+							(AluOp_i == `XOR) ? xor_r :
+							(AluOp_i == `SRL) ? srl_r :
+							(AluOp_i == `SRA) ? sra_r :
+							(AluOp_i == `OR) ? or_r : 
+							(AluOp_i == `AND) ? and_r : 
+							(AluOp_i == `B) ? rs2_i : {32{1'b0}};
 	
 	
 endmodule

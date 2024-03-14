@@ -1,13 +1,23 @@
 module RISC_V(
 	input logic clk_i
 	);
-	logic WE_w, RegWEn_w, Bsel_w, ImmSel_w;
+	logic WE_w, RegWEn_w, Bsel_w, MemRW_w, BrEq_w, BrLt_w, PCSel, BrUn_w, Asel_w;
 	logic overf_pc_r;
-	logic [31:0] pc_w, pc4_w, inst_w, dataWB_w, rs1_w, rs2_w, imm_w, rs2_pre_w;
+	logic [31:0] pc_w, pc4_w, inst_w, dataWB_w, rs1_w, rs2_w, imm_w, rs2_pre_w, alu_w, dataW_w, mem_w;
+	logic [31:0] pc_in_w, rs1_pre_w;
 	logic [3:0] AluOp_w;
+	logic [1:0] WBSel_w;
+	logic [2:0] ImmSel_w;
+	
+	mux2to1_32bit M2(
+		.a_i(pc4_w),
+		.b_i(alu_w),
+		.se_i(PCSel),
+		.c_o(pc_in_w)
+		);
 	
 	PC PC(
-		.data_i(pc4_w), 
+		.data_i(pc_in_w), 
 		.WE_i(WE_w), 
 		.clk_i(clk_i), 
 		.data_o(pc_w)
@@ -32,12 +42,20 @@ module RISC_V(
 		.rs2_i(inst_w[24:20]),
 		.RegWEn_i(RegWEn_w),
 		.clk_i(clk_i),
-		.data1_o(rs1_w),
+		.data1_o(rs1_pre_w),
 		.data2_o(rs2_pre_w)
 		);
 		
+	Branch_Comp BC(
+		.rs1_i(rs1_pre_w),
+		.rs2_i(rs2_pre_w),
+		.BrUn_i(BrUn_w),
+		.BrEq_o(BrEq_w),
+		.BrLt_o(BrLt_w)
+		);
+		
 	Imm_Gen IG(
-		.inst_i(inst_w[31:20]),
+		.inst_i(inst_w[31:7]),
 		.ImmSel_i(ImmSel_w),
 		.imm_o(imm_w)
 		);
@@ -49,14 +67,41 @@ module RISC_V(
 		.c_o(rs2_w)
 		);
 		
+	mux2to1_32bit M3(
+		.a_i(rs1_pre_w),
+		.b_i(pc_w),
+		.se_i(Asel_w),
+		.c_o(rs1_w)
+		);
+		
 	ALU ALU(
 		.rs1_i(rs1_w),
 		.rs2_i(rs2_w),
 		.AluOp_i(AluOp_w),
-		.Result_o(dataWB_w)
+		.Result_o(alu_w)
 		);
 		
-	
+	DMEM DMEM(
+		.addr_i(alu_w),
+		.dataW_i(rs2_pre_w),
+		.MemRW_i(MemRW_w),
+		.clk_i(clk_i),
+		.dataR_o(mem_w)
+		);
+		
+//	mux2to1_32bit M1(
+//		.a_i(mem_w),
+//		.b_i(alu_w),
+//		.se_i(WBSel_w),
+//		.c_o(dataWB_w)
+//		);
+	mux3to1_32bit M1(
+		.a_i(mem_w),
+		.b_i(alu_w),
+		.c_i(pc4_w),
+		.se_i(WBSel_w),
+		.r_o(dataWB_w)
+		);
 	
 endmodule
 
