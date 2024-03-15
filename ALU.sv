@@ -6,7 +6,7 @@
 
 module ALU(
 	input logic [31:0]  rs1_i,  rs2_i,
-	input logic [3:0] AluOp_i, // Alu_op[2:0] = funct3, Alu_op[3] = funct7[5]
+	input logic [3:0] AluSel_i, // Alu_op[2:0] = funct3, Alu_op[3] = funct7[5]
 	output logic [31:0] Result_o
 	);
 	
@@ -18,7 +18,7 @@ module ALU(
 	//logic [31:0] mem_r;
 	
 	//assign mem_r = Result_o;
-	//decode3to8 DE0(AluOp_i[2:0], cond);
+	//decode3to8 DE0(AluSel_i[2:0], cond);
 	
 	// funct3 = 000
 	adder_32bit AD0( rs1_i,  rs2_i, sum_r, overf1);
@@ -43,7 +43,7 @@ module ALU(
 	// funct3 = 101
 	shift_right_logical SRL0(rs1_i, rs2_i, srl_r);
 	shift_right_arithmetic SRA0(rs1_i, rs2_i, sra_r);
-	//mux3to1_32bit MU5(srl_r, sra_r, temp_ans_r[4], {(~cond[5]), AluOp_i[3]}, temp_ans_r[5]);
+	//mux3to1_32bit MU5(srl_r, sra_r, temp_ans_r[4], {(~cond[5]), AluSel_i[3]}, temp_ans_r[5]);
 	
 	// funct3 = 110
 	or_32bit OR0(rs1_i, rs2_i, or_r);
@@ -55,17 +55,17 @@ module ALU(
 	
 	
 	
-	assign Result_o = (AluOp_i == `ADD) ? sum_r : 
-							(AluOp_i == `SUB) ? sub_r : 
-							(AluOp_i == `SLL) ? sll_r : 
-							(AluOp_i == `SLT) ? slt_r : 
-							(AluOp_i == `SLTU) ? sltu_r :
-							(AluOp_i == `XOR) ? xor_r :
-							(AluOp_i == `SRL) ? srl_r :
-							(AluOp_i == `SRA) ? sra_r :
-							(AluOp_i == `OR) ? or_r : 
-							(AluOp_i == `AND) ? and_r : 
-							(AluOp_i == `B) ? rs2_i : {32{1'b0}};
+	assign Result_o = (AluSel_i == `ADD) ? sum_r : 
+							(AluSel_i == `SUB) ? sub_r : 
+							(AluSel_i == `SLL) ? sll_r : 
+							(AluSel_i == `SLT) ? slt_r : 
+							(AluSel_i == `SLTU) ? sltu_r :
+							(AluSel_i == `XOR) ? xor_r :
+							(AluSel_i == `SRL) ? srl_r :
+							(AluSel_i == `SRA) ? sra_r :
+							(AluSel_i == `OR) ? or_r : 
+							(AluSel_i == `AND) ? and_r : 
+							(AluSel_i == `B) ? rs2_i : {32{1'b0}};
 	
 	
 endmodule
