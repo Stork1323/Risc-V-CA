@@ -1,7 +1,8 @@
-`include "define.sv"
+//`include "define.sv"
 
 module RISC_V(
-	input logic clk_i
+	input logic clk_i,
+	input logic rst_n_i
 	);
 	logic RegWEn_w, Bsel_w, MemRW_w, BrEq_w, BrLt_w, PCSel_w, BrUn_w, Asel_w;
 	logic overf_pc_r;
@@ -21,7 +22,8 @@ module RISC_V(
 	PC PC(
 		.data_i(pc_in_w), 
 		//.WE_i(WE_w), 
-		.clk_i(clk_i), 
+		.clk_i(clk_i),
+		.rst_n_i(rst_n_i),
 		.data_o(pc_w)
 		);
 	
@@ -34,6 +36,7 @@ module RISC_V(
 	
 	IMEM IMEM(
 		.addr_i(pc_w),
+		.rst_n_i(rst_n_i),
 		.inst_o(inst_w)
 		);
 		
@@ -44,6 +47,7 @@ module RISC_V(
 		.rs2_i(inst_w[24:20]),
 		.RegWEn_i(RegWEn_w),
 		.clk_i(clk_i),
+		.rst_n_i(rst_n_i),
 		.data1_o(rs1_pre_w),
 		.data2_o(rs2_pre_w)
 		);
@@ -88,7 +92,8 @@ module RISC_V(
 		.dataW_i(rs2_pre_w),
 		.MemRW_i(MemRW_w),
 		.clk_i(clk_i),
-		.dataR_o(mem_w)
+		.dataR_o(mem_w),
+		.rst_n_i(rst_n_i)
 		);
 		
 //	mux2to1_32bit M1(

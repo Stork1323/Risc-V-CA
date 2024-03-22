@@ -1,4 +1,4 @@
-`include "define.sv"
+//`include "define.sv"
 
 module Control_Logic(
 	input logic [31:0] inst_i,

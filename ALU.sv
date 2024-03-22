@@ -2,7 +2,7 @@
 	This current module compute 10 R-type instructions
 */
 
-`include "define.sv"
+//`include "define.sv"
 
 module ALU(
 	input logic [31:0]  rs1_i,  rs2_i,
