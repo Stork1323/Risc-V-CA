@@ -6,7 +6,7 @@ module IMEM( // A read-only memory for fetching instructions
 	
 	logic [31:0] mem [1023:0];
 	
-	assign inst_o = (rst_n_i == 1'b0) ? 32'b0 : mem[addr_i];
+	assign inst_o = (rst_n_i == 1'b0) ? 32'b0 : mem[addr_i[31:2]];
 	
 /*
 	initial begin
@@ -18,6 +18,8 @@ module IMEM( // A read-only memory for fetching instructions
 	initial begin
 		//mem[0] = 32'h0000_0000;
 		mem[0] = 32'h0320_0793;
+		mem[1] = 32'h03100713;
+		mem[2] = 32'h00E7F6B3;
 	end
 	
 endmodule

@@ -46,7 +46,40 @@ module Reg( // Register file
 	assign reg_r0_q = 32'b0;
 	
 	always_ff @(posedge clk_i) begin : Synchronous_register_write_back
-		if (RegWEn_i) begin
+		if (~rst_n_i) begin
+        reg_r1_q       <= 32'h00000000;
+        reg_r2_q       <= 32'h00000000;
+        reg_r3_q       <= 32'h00000000;
+        reg_r4_q       <= 32'h00000000;
+        reg_r5_q       <= 32'h00000000;
+        reg_r6_q       <= 32'h00000000;
+        reg_r7_q       <= 32'h00000000;
+        reg_r8_q       <= 32'h00000000;
+        reg_r9_q       <= 32'h00000000;
+        reg_r10_q      <= 32'h00000000;
+        reg_r11_q      <= 32'h00000000;
+        reg_r12_q      <= 32'h00000000;
+        reg_r13_q      <= 32'h00000000;
+        reg_r14_q      <= 32'h00000000;
+        reg_r15_q      <= 32'h00000000;
+        reg_r16_q      <= 32'h00000000;
+        reg_r17_q      <= 32'h00000000;
+        reg_r18_q      <= 32'h00000000;
+        reg_r19_q      <= 32'h00000000;
+        reg_r20_q      <= 32'h00000000;
+        reg_r21_q      <= 32'h00000000;
+        reg_r22_q      <= 32'h00000000;
+        reg_r23_q      <= 32'h00000000;
+        reg_r24_q      <= 32'h00000000;
+        reg_r25_q      <= 32'h00000000;
+        reg_r26_q      <= 32'h00000000;
+        reg_r27_q      <= 32'h00000000;
+        reg_r28_q      <= 32'h00000000;
+        reg_r29_q      <= 32'h00000000;
+        reg_r30_q      <= 32'h00000000;
+        reg_r31_q      <= 32'h00000000;
+		end
+		else if (RegWEn_i) begin
 			if (rsW_i == 5'd1) reg_r1_q <= dataW_i;
          if (rsW_i == 5'd2) reg_r2_q <= dataW_i;
          if (rsW_i == 5'd3) reg_r3_q <= dataW_i;

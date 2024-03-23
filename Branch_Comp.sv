@@ -12,7 +12,7 @@ module Branch_Comp(
 	set_less_than SLT(.rs1_i(rs1_i), .rs2_i(rs2_i), .rd_o(comp_lt));
 	set_less_than_unsign SLTU(.rs1_i(rs1_i), .rs2_i(rs2_i), .rd_o(comp_ltu));
 	
-	assign BrEq_o = comp_eq[0];
-	assign BrLt_o = (~BrUn_i) ? comp_lt[0] : comp_ltu[0];
+	assign BrEq_o = (comp_eq[0]) ? 1'b1 : 1'b0;
+	assign BrLt_o = (~BrUn_i) ? ((comp_lt[0]) ? 1'b1 : 1'b0) : ((comp_ltu[0]) ? 1'b1 : 1'b0);
 	
 endmodule

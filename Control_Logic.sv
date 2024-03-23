@@ -36,7 +36,7 @@ module Control_Logic(
 							(opcode_r == `OP_Stype) 																			 ? `S_TYPE : 
 							(opcode_r == `OP_Btype)																				 ? `B_TYPE : 
 							(opcode_r == `OP_JAL)   																			 ? `J_TYPE : 
-							((opcode_r == `OP_LUI) | (opcode_r == `OP_AUIPC))											 ? `U_TYPE : 3'bxxx;
+							((opcode_r == `OP_LUI) | (opcode_r == `OP_AUIPC))											 ? `U_TYPE : 3'b111;
 	
 	assign MemRW_o = (opcode_r == `OP_Stype) ? 1'b1 : 1'b0;
 	
@@ -45,10 +45,10 @@ module Control_Logic(
 	
 	assign BrUn_o = ((funct3 == `BLTU) | (funct3 == `BGEU)) ? 1'b1 : 1'b0;
 	
-	assign PCSel_o = (((funct3 == `BEQ) & (BrEq_i))  | 
-						  ((funct3 == `BNE) & (~BrEq_i))  | 
-						  ((funct3 == `BLT) & (BrLt_i))   | 
-						  ((funct3 == `BGE) & (~BrLt_i))  |
+	assign PCSel_o = ((opcode_r == `OP_Btype) & ((funct3 == `BEQ) & (BrEq_i))  | 
+						  ((opcode_r == `OP_Btype) & (funct3 == `BNE) & (~BrEq_i))  | 
+						  ((opcode_r == `OP_Btype) & (funct3 == `BLT) & (BrLt_i))   | 
+						  ((opcode_r == `OP_Btype) & (funct3 == `BGE) & (~BrLt_i))  |
 						  ((opcode_r == `OP_JAL) | (opcode_r == `OP_JALR))) ? 1'b1 : 1'b0;
 	
 	assign Asel_o = ((opcode_r == `OP_Btype) |
