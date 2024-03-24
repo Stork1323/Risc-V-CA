@@ -5,11 +5,11 @@ module RISC_V_tb();
 `define clk 50
 
 	logic clk_i = 1'b0;
-	logic rst_n_i;
+	logic rst_ni;
 	
 	RISC_V CPU(
 		.clk_i(clk_i),
-		.rst_n_i(rst_n_i)
+		.rst_ni(rst_ni)
 	);
 	
 	initial begin
@@ -18,11 +18,11 @@ module RISC_V_tb();
 	end
 	
 	initial begin
-		rst_n_i <= 1'b0;
+		rst_ni <= 1'b0;
 		#150;
 		
-		rst_n_i <= 1'b1;
-		#500;
+		rst_ni <= 1'b1;
+		#2000;
 		$finish;
 	end
 	

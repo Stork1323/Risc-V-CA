@@ -27,7 +27,8 @@ module Control_Logic(
 	
 	// 10 instructions R type
 	assign AluSel_o = ((opcode_r == `OP_Btype) | (opcode_r == `OP_JAL) | (opcode_r == `OP_Itype_load) |
-							(opcode_r == `OP_Stype) | (opcode_r == `OP_AUIPC) | (opcode_r == `OP_JALR)) ? `ADD :
+							(opcode_r == `OP_Stype) | (opcode_r == `OP_AUIPC) | (opcode_r == `OP_JALR) |
+							((opcode_r == `OP_Itype) & (funct3 == 3'b000))) ? `ADD :						// in case addi 
 							(opcode_r == `OP_LUI) ? `B : {funct7[5], funct3};
 	
 	assign Bsel_o = (opcode_r == `OP_Rtype) ? 1'b0 : 1'b1;
@@ -49,6 +50,8 @@ module Control_Logic(
 						  ((opcode_r == `OP_Btype) & (funct3 == `BNE) & (~BrEq_i))  | 
 						  ((opcode_r == `OP_Btype) & (funct3 == `BLT) & (BrLt_i))   | 
 						  ((opcode_r == `OP_Btype) & (funct3 == `BGE) & (~BrLt_i))  |
+						  ((opcode_r == `OP_Btype) & (funct3 == `BLTU) & (BrLt_i))  |
+						  ((opcode_r == `OP_Btype) & (funct3 == `BGEU) & (~BrLt_i))  |
 						  ((opcode_r == `OP_JAL) | (opcode_r == `OP_JALR))) ? 1'b1 : 1'b0;
 	
 	assign Asel_o = ((opcode_r == `OP_Btype) |
