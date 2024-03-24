@@ -2,11 +2,11 @@
 
 module RISC_V(
 	input logic clk_i,
-	input logic rst_n_i
+	input logic rst_ni
 	);
 	logic RegWEn_w, Bsel_w, MemRW_w, BrEq_w, BrLt_w, PCSel_w, BrUn_w, Asel_w;
 	logic overf_pc_r;
-	logic [31:0] pc_w, pc4_w, inst_w, dataWB_w, rs1_w, rs2_w, imm_w, rs2_pre_w, alu_w, dataW_w, mem_w;
+	logic [31:0] pc_w, pc4_w, inst_w, dataWB_w, rs1_w, rs2_w, imm_w, rs2_pre_w, alu_w, dataW_w, mem_w, pc_debug_w;
 	logic [31:0] pc_in_w, rs1_pre_w;
 	logic [3:0] AluSel_w;
 	logic [1:0] WBSel_w;
@@ -23,7 +23,7 @@ module RISC_V(
 		.data_i(pc_in_w), 
 		//.WE_i(WE_w), 
 		.clk_i(clk_i),
-		.rst_n_i(rst_n_i),
+		.rst_ni(rst_ni),
 		.data_o(pc_w)
 		);
 	
@@ -36,7 +36,7 @@ module RISC_V(
 	
 	IMEM IMEM(
 		.addr_i(pc_w),
-		.rst_n_i(rst_n_i),
+		.rst_ni(rst_ni),
 		.inst_o(inst_w)
 		);
 		
@@ -47,7 +47,7 @@ module RISC_V(
 		.rs2_i(inst_w[24:20]),
 		.RegWEn_i(RegWEn_w),
 		.clk_i(clk_i),
-		.rst_n_i(rst_n_i),
+		.rst_ni(rst_ni),
 		.data1_o(rs1_pre_w),
 		.data2_o(rs2_pre_w)
 		);
@@ -93,7 +93,7 @@ module RISC_V(
 		.MemRW_i(MemRW_w),
 		.clk_i(clk_i),
 		.dataR_o(mem_w),
-		.rst_n_i(rst_n_i)
+		.rst_ni(rst_ni)
 		);
 		
 //	mux2to1_32bit M1(
@@ -124,6 +124,8 @@ module RISC_V(
 		.PCSel_o(PCSel_w),
 		.Asel_o(Asel_w)
 		);
+		
+	assign pc_debug_w = pc_w;
 	
 endmodule
 
